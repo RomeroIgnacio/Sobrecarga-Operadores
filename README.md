@@ -1,4 +1,4 @@
-# Clases y Objetos
+# Sobrecarga de Operadores
 
 En está actividad se usará el paradigma **POO** para resolver los problemas citados en el PDF.
 

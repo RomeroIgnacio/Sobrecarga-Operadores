@@ -1,16 +1,17 @@
 #include <iostream>
-#include <cstring>
+#include <string>
 
 class Empleado
 {
 private:
     int ClaveEmpleado;
-    char Nombre[50];
-    char Domicilio[100];
+    std::string Nombre;
+    std::string Domicilio;
     float Sueldo;
-    char ReporteA[50];
+    std::string ReporteA;
 
 public:
+    Empleado(int clave, std::string nom, std::string dom, float sal, std::string repA) : ClaveEmpleado(clave), Nombre(nom), Domicilio(dom), Sueldo(sal), ReporteA(repA) {}
     bool operator==(Empleado& emp)
     {
         return ClaveEmpleado == emp.ClaveEmpleado;
@@ -38,22 +39,22 @@ public:
 
         std::cout << "Ingrese el Nombre: ";
         in.ignore();
-        in.getline(emp.Nombre, sizeof(emp.Nombre));
+        std::getline(in, emp.Nombre);
 
         std::cout << "Ingrese el Domicilio: ";
-        in.getline(emp.Domicilio, sizeof(emp.Domicilio));
+        std::getline(in, emp.Domicilio);
 
         std::cout << "Ingrese el Sueldo: ";
         in >> emp.Sueldo;
 
         std::cout << "Ingrese el ReporteA: ";
         in.ignore();
-        in.getline(emp.ReporteA, sizeof(emp.ReporteA));
+        std::getline(in, emp.ReporteA);
 
         return in;
     }
 
-    friend std::ostream& operator<<(std::ostream& out, const Empleado& emp)
+    friend std::ostream& operator<<(std::ostream& out, Empleado& emp)
     {
         out << "Clave del Empleado: " << emp.ClaveEmpleado << "\n";
         out << "Nombre: " << emp.Nombre << "\n";
@@ -64,19 +65,19 @@ public:
         return out;
     }
 
-    void Imprime() const
+    void Imprime()
     {
         std::cout << *this;
     }
 
-    void CambiarDomic(char nuevoDomicilio[])
+    void CambiarDomic(std::string& nuevoDomicilio)
     {
-        std::strcpy(Domicilio, nuevoDomicilio);
+        Domicilio = nuevoDomicilio;
     }
 
-    void CambiarReporteA(char nuevoReporteA[])
+    void CambiarReporteA(std::string& nuevoReporteA)
     {
-        std::strcpy(ReporteA, nuevoReporteA);
+        ReporteA = nuevoReporteA;
     }
 
     void ActualSueldo(float porcentajeIncremento)
@@ -92,7 +93,9 @@ public:
 
 int main()
 {
-    Empleado JefePlanta, JefePersonal;
+    Empleado JefePlanta(1, "NombreJefePlanta", "DomicilioJefePlanta", 5000.0, "ReporteAJefePlanta");
+    Empleado JefePersonal(2, "NombreJefePersonal", "DomicilioJefePersonal", 6000.0, "ReporteAJefePersonal");
+
 
     int opcion;
     do
@@ -103,15 +106,16 @@ int main()
         switch (opcion)
         {
             case 1:
+            {
                 int claveDomicilio;
-                char nuevoDomicilio[100];
+                std::string nuevoDomicilio;
 
-                std::cout << "Ingrese la clave del empleado para cambiar domicilio: ";
+                std::cout << "\nIngrese la clave del empleado para cambiar domicilio: ";
                 std::cin >> claveDomicilio;
 
                 std::cout << "Ingrese el nuevo domicilio: ";
                 std::cin.ignore();
-                std::cin.getline(nuevoDomicilio, sizeof(nuevoDomicilio));
+                std::getline(std::cin, nuevoDomicilio);
 
                 if (JefePlanta.ObtenerClave() == claveDomicilio)
                 {
@@ -123,15 +127,17 @@ int main()
                 }
                 else
                 {
-                    std::cout << "Empleado no encontrado.\n";
+                    std::cout << "\nEmpleado no encontrado.\n";
                 }
                 break;
+            }
 
             case 2:
+            {
                 int claveSueldo;
                 float porcentajeIncremento;
 
-                std::cout << "Ingrese la clave del empleado para actualizar sueldo: ";
+                std::cout << "\nIngrese la clave del empleado para actualizar sueldo: ";
                 std::cin >> claveSueldo;
 
                 std::cout << "Ingrese el porcentaje de incremento: ";
@@ -147,14 +153,16 @@ int main()
                 }
                 else
                 {
-                    std::cout << "Empleado no encontrado.\n";
+                    std::cout << "\nEmpleado no encontrado.\n";
                 }
                 break;
+            }
 
             case 3:
+            {
                 int claveImprimir;
 
-                std::cout << "Ingrese la clave del empleado para imprimir datos: ";
+                std::cout << "\nIngrese la clave del empleado para imprimir datos: ";
                 std::cin >> claveImprimir;
 
                 if (JefePlanta.ObtenerClave() == claveImprimir)
@@ -167,20 +175,22 @@ int main()
                 }
                 else
                 {
-                    std::cout << "Empleado no encontrado.\n";
+                    std::cout << "\nEmpleado no encontrado.\n";
                 }
                 break;
+            }
 
             case 4:
+            {
                 int claveReporteA;
-                char nuevoReporteA[50];
+                std::string nuevoReporteA;
 
-                std::cout << "Ingrese la clave del empleado para cambiar el nombre de la persona a quien reporta: ";
+                std::cout << "\nIngrese la clave del empleado para cambiar el nombre de la persona a quien reporta: ";
                 std::cin >> claveReporteA;
 
                 std::cout << "Ingrese el nuevo nombre: ";
                 std::cin.ignore();
-                std::cin.getline(nuevoReporteA, sizeof(nuevoReporteA));
+                std::getline(std::cin, nuevoReporteA);
 
                 if (JefePlanta.ObtenerClave() == claveReporteA)
                 {
@@ -192,18 +202,24 @@ int main()
                 }
                 else
                 {
-                    std::cout << "Empleado no encontrado.\n";
+                    std::cout << "\nEmpleado no encontrado.\n";
                 }
                 break;
+            }
 
             case 5:
-                std::cout << "Saliendo del programa.\n";
+            {
+                std::cout << "\nSaliendo del programa.\n";
                 break;
+            }
 
             default:
-                std::cout << "Opción no válida.\n";
+            {
+                std::cout << "\nOpción no válida.\n";
+                break;
+            }
         }
-    } while (opcion);
+    } while (opcion != 5);
 
     return 0;
 }
